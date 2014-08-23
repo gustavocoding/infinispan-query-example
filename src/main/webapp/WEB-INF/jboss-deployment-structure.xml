@@ -1,0 +1,10 @@
+<jboss-deployment-structure> 
+	<deployment>
+		<dependencies>
+			<module name="org.infinispan" services="import" slot="ispn-7.0"/>
+			<module name="org.infinispan.query" services="import" slot="ispn-7.0"/>
+			<module name="org.infinispan.commons" services="import" slot="ispn-7.0"/>
+			<module name="org.hibernate.search.engine" services="import" slot="ispn-7.0"/>
+		</dependencies>
+	</deployment>
+</jboss-deployment-structure>
