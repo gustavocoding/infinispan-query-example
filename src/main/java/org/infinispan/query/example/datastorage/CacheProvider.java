@@ -23,8 +23,11 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Singleton;
 
 import org.infinispan.Cache;
-import org.infinispan.manager.EmbeddedCacheManager;
+import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.query.example.domain.BikeStation;
+
+import javax.enterprise.context.ApplicationScoped;
+import java.io.IOException;
 
 /**
  * Cache Provider
@@ -40,13 +43,10 @@ public class CacheProvider {
 	public static final String ETAGS_CACHE_NAME = "etags";
 	
 	@Produces
-    @Resource(lookup = "java:jboss/infinispan/container/citibikes")
-    private EmbeddedCacheManager cacheManager;
-
-	
-	@Produces
 	@BikeStationsCache
-	public Cache<Integer, BikeStation> getBikeStationsCache(final EmbeddedCacheManager cacheManager) {
+   @ApplicationScoped
+	public Cache<Integer, BikeStation> getBikeStationsCache() throws IOException {
+      DefaultCacheManager cacheManager = new DefaultCacheManager("cache.xml");
 		return cacheManager.getCache(BIKE_STATIONS_CACHE_NAME);
 	}
 

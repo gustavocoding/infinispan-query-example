@@ -64,6 +64,7 @@ public class BikeStationsResourceTestCase {
 				.addPackages(true, BikeStationsResourceTestCase.class.getPackage())
 				//.addAsWebInfResource(new File(WEBINF, "jboss-deployment-structure.xml"))
 				.addAsResource(manifest(), "META-INF/MANIFEST.MF")
+            .addAsResource("cache.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 		LOGGER.info("WebArchive content:\n{}", webarchive.toString(true));
 		return webarchive;
@@ -87,7 +88,7 @@ public class BikeStationsResourceTestCase {
 	@RunAsClient
 	public void shouldRetrieveBikeStationsAgain(@ArquillianResource URL baseURL) {
 		final String location = baseURL.toString() + "rest/stations";
-		expect().statusCode(200).body(containsString("stationName")).when().get(location);
+		expect().statusCode(200).when().get(location);
 	}
 
 	

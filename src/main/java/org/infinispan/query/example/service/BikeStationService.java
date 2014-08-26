@@ -24,9 +24,12 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 
+import org.apache.lucene.search.Query;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.infinispan.Cache;
+import org.infinispan.query.CacheQuery;
 import org.infinispan.query.Search;
-import org.infinispan.query.dsl.Query;
+import org.infinispan.query.SearchManager;
 import org.infinispan.query.example.datastorage.BikeStationsCache;
 import org.infinispan.query.example.domain.BikeStation;
 import org.infinispan.query.example.domain.BikeStationStatus;
@@ -65,10 +68,16 @@ public class BikeStationService {
 	 * @return a {@link List} containing all {@link BikeStation}s with {@link BikeStationStatus} equals to
 	 *         {@link BikeStationStatus#IN_SERVICE}.
 	 */
-	public List<BikeStation> getBikeStationsInService() {
+	public List<Object> getBikeStationsInService() {
 		logger.debug("Returning all 'In-Service' bike stations");
-		Query query = Search.getSearchManager(bikeStationsCache).getQueryFactory().from(BikeStation.class).having("status").eq(BikeStationStatus.IN_SERVICE).toBuilder().build();
-		return query.list();
-	}
+      SearchManager sm = Search.getSearchManager(bikeStationsCache);
+      QueryBuilder queryBuilder = sm.buildQueryBuilderForClass(BikeStation.class).get();
+      Query query = queryBuilder.keyword().onField("status").matching(BikeStationStatus.IN_SERVICE).createQuery();
+
+      CacheQuery cacheQuery = sm.getQuery(query);
+
+      return cacheQuery.list();
+
+   }
 
 }

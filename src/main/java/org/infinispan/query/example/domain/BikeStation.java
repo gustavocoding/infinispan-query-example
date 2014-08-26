@@ -53,10 +53,10 @@ public class BikeStation {
 	private int availableBikes;
 	
 	@Latitude
-	private float latitude;
+	private double latitude;
 
 	@Longitude
-	private float longitude;
+	private double longitude;
 	
 	@Field
 	private BikeStationStatus status;
@@ -134,7 +134,7 @@ public class BikeStation {
 		this.availableBikes = availableBikes;
 	}
 
-	public float getLatitude() {
+	public double getLatitude() {
 		return latitude;
 	}
 
@@ -142,7 +142,7 @@ public class BikeStation {
 		this.latitude = latitude;
 	}
 
-	public float getLongitude() {
+	public double getLongitude() {
 		return longitude;
 	}
 

@@ -50,8 +50,9 @@ public class BikeStationsResource {
 	private BikeStationService bikeStationService;
 
 	@GET
+   @Produces({ MediaType.APPLICATION_JSON})
 	public Response getAllStations() {
-		final List<BikeStation> bikeStations = bikeStationService.getBikeStationsInService();
+		final List<Object> bikeStations = bikeStationService.getBikeStationsInService();
 		return Response.ok(bikeStations).build();
 	}
 
